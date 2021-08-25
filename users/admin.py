@@ -9,31 +9,51 @@ from .models import User
 
 class UserAdmin(BaseUserAdmin):
     list_display = ('pk', 'username', 'phone_number', 'website',
-                    'profile_picture')
+                    'profile_picture', 'is_active', 'is_staff')
     list_display_links = ('pk', 'username')
     list_editable = ('phone_number', 'website', 'profile_picture')
 
     fieldsets = (
-        (None, {
+        (_('Login info'), {
             'fields': ('username', 'email', 'password')
         }),
-        (_('Personal info'), {
-            'fields': ('first_name', 'last_name', 'website', 'biography',
-                       'phone_number', 'profile_picture')
+        (_('Profile'), {
+            'fields': (
+                ('first_name', 'last_name'),
+                ('phone_number', 'website'), 
+                'biography',
+                'profile_picture'
+            )
         }),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups',
                        'user_permissions'),
         }),
         (_('Important dates'), {
-            'fields': ('last_login', 'date_joined')
+            'fields': (
+                ('last_login', 'date_joined'),
+            )
+        }),
+        (_('Metadata'), {
+            'fields': ('last_modified',)
+        })
+    )
+
+    add_fieldsets = (
+        (_('Login info'), {
+            'fields': ('username', 'email', 'password1', 'password2')
+        }),
+        (_('Profile'), {
+            'fields': (
+                ('first_name', 'last_name'),
+                ('phone_number', 'website'),
+                'biography',
+                'profile_picture'
+            )
         }),
     )
 
-    add_fieldsets = ((None, {
-        'fields': ('username', 'email', 'password1', 'password2', 'website',
-                   'biography', 'phone_number', 'profile_picture')
-    }), )
+    readonly_fields = ('last_login', 'date_joined', 'last_modified')
 
     search_fields = (
         'username',
