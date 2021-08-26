@@ -1,0 +1,15 @@
+#navbar_container {
+  background-color: white;
+  border-bottom: 1px solid black;
+}
+
+.navbar {
+  background-color: white;
+}
+
+.vertical_line {
+  border-right: 1px solid #444;
+  height: inherit;
+  height: 64px;
+  box-shadow: 2px 0 5px #444;
+}

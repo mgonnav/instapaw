@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% block head %}
+  {% endblock %}
+
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}" media="all">
+  <link rel="stylesheet" href="{% static 'fontawesomefree/css/all.min.css' %}" type="text/css" media="all">
+</head>
+<body>
+  {% include "navbar.html" %}
+
+  <div class="container mt-5">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  {% bootstrap_javascript %}
+</body>
+</html>

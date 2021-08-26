@@ -1,0 +1,30 @@
+{% load static %}
+<div id="navbar_container">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="{% url 'feed' %}">
+        <img src="{% static 'img/logo.svg' %}" alt="Instapaw logo" width="64">
+        <img src="{% static 'img/logo_text.png' %}" alt="Instapaw logo text" height="32">
+      </a>
+      <div class="vertical_line me-2"></div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'feed' %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto align-items-center fs-4">
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-plus"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><img class="rounded-circle" width="64" src="{% static 'img/default_picture.png' %}" alt="{{ user.username }}"></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
