@@ -21,7 +21,14 @@
             <a class="nav-link" href="#"><i class="fas fa-plus"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><img class="rounded-circle" width="64" src="{% static 'img/default_picture.png' %}" alt="{{ user.username }}"></a>
+            {% if user.profile_picture %}
+              <a class="nav-link" href="#"><img class="rounded-circle" width="64" height="64" src="{{ user.profile_picture.url }}" alt="{{ user.username }}" style="object-fit:cover;"></a>
+            {% else %}
+              <a class="nav-link" href="#"><img class="rounded-circle" width="64" height="64" src="{% static 'img/default_picture.png' %}" alt="{{ user.username }}"></a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
           </li>
         </ul>
       </div>
