@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', posts_views.list_posts, name='feed'),
     path('login/', users_views.login_view, name='login'),
-    path('logout/', users_views.logout_view, name='logout')
+    path('logout/', users_views.logout_view, name='logout'),
+    path('signup/', users_views.signup, name='signup'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

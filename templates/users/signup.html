@@ -1,0 +1,51 @@
+{% extends "users/base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>Sign up</title>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-center align-items-center h-75">
+    <div class="card px-4 py-5 align-items-center">
+      <div id="brand" class="mb-4">
+        <img src="{% static 'img/logo.svg' %}" alt="Instapaw logo" width="64">
+        <img src="{% static 'img/logo_text.png' %}" alt="Instapaw logo text" height="32">
+      </div>
+
+      {% if error %}
+        <p class="alert alert-danger w-100">{{ error }}</p>
+      {% endif %}
+
+      <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+        <div class="row mb-3">
+          <div class="col">
+            <input class="form-control" type="text" name="first_name" placeholder="First name" required>
+          </div>
+          <div class="col">
+            <input class="form-control" type="text" name="last_name" placeholder="Last name" required>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input class="form-control" type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          <input class="form-control" type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input class="form-control" type="password" name="password1" placeholder="Password" required>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input class="form-control" type="password" name="password2" placeholder="Confirm password" required>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Sign up</button>
+      </form>
+      <a class="text-decoration-none mt-3" href="{% url 'login' %}">Already have an account? Log in</a>
+    </div>
+  </div>
+{% endblock %}

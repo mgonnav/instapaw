@@ -6,6 +6,7 @@ from django.db import models
 
 class User(AbstractUser):
     """User model."""
+    email = models.EmailField(unique=True)
     website = models.URLField(max_length=200, blank=True)
     biography = models.TextField(blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
