@@ -21,6 +21,9 @@
             <a class="nav-link" href="#"><i class="fas fa-plus"></i></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'edit_profile' %}"><i class="fas fa-edit"></i></a>
+          </li>
+          <li class="nav-item">
             {% if user.profile_picture %}
               <a class="nav-link" href="#"><img class="rounded-circle" width="64" height="64" src="{{ user.profile_picture.url }}" alt="{{ user.username }}" style="object-fit:cover;"></a>
             {% else %}

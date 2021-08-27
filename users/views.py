@@ -2,13 +2,18 @@
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-
 #Exceptions
 from django.db.utils import IntegrityError
+from django.shortcuts import redirect, render
 
 # Models
 from users.models import User
+
+
+@login_required
+def edit_profile(request):
+    """Edit a user's profile view."""
+    return render(request, 'users/edit_profile.html')
 
 
 def login_view(request):
@@ -28,13 +33,6 @@ def login_view(request):
                           {'error': 'Invalid credentials.'})
 
     return render(request, 'users/login.html')
-
-
-@login_required
-def logout_view(request):
-    """Log out view."""
-    logout(request)
-    return redirect('login')
 
 
 def signup(request):
@@ -71,3 +69,10 @@ def signup(request):
         return redirect('login')
 
     return render(request, 'users/signup.html')
+
+
+@login_required
+def logout_view(request):
+    """Log out view."""
+    logout(request)
+    return redirect('login')

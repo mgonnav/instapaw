@@ -55,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'instapaw.middleware.ProfileCompletionMiddleware',
 ]
 
 ROOT_URLCONF = 'instapaw.urls'
@@ -142,4 +144,4 @@ AUTH_USER_MODEL = 'users.User'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/accounts/login/'
