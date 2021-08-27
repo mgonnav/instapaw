@@ -17,12 +17,12 @@ class ProfileCompletionMiddleware:
     def __call__(self, request):
         """Validation to be executed on each request before
         the view is called."""
-        exempt_urls = ['edit_profile', 'logout']
 
         user = request.user
         if not user.is_anonymous:
             if not user.profile_picture or not user.biography:
-                if request.path not in map(reverse, exempt_urls):
+                exempt_urls = map(reverse, ['edit_profile', 'logout'])
+                if request.path not in exempt_urls:
                     return redirect('edit_profile')
 
         response = self.get_response(request)

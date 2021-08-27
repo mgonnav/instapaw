@@ -2,8 +2,6 @@
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-#Exceptions
-from django.db.utils import IntegrityError
 from django.shortcuts import redirect, render
 
 # Models
