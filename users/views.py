@@ -4,11 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-# Models
-from users.models import User
-
-# Froms
-from .forms import UserForm
+# Forms
+from .forms import UserForm, SignupForm
 
 
 @login_required
@@ -17,19 +14,7 @@ def edit_profile(request):
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            data = form.cleaned_data
-            user = request.user
-
-            user.username = data['username']
-            user.email = data['email']
-            user.first_name = data['first_name']
-            user.last_name = data['last_name']
-            user.website = data['website']
-            user.biography = data['biography']
-            user.phone_number = data['phone_number']
-            user.profile_picture = data['profile_picture']
-
-            user.save()
+            form.save()
             return redirect('edit_profile')
     else:
         form = UserForm()
@@ -65,34 +50,17 @@ def signup(request):
         return redirect('feed')
 
     if request.method == 'POST':
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = SignupForm()
 
-        if password1 != password2:
-            return render(request, 'users/signup.html',
-                          {'error': 'Passwords do not match.'})
-
-        username = request.POST['username']
-        if User.objects.filter(username=username).exists():
-            return render(request, 'users/signup.html',
-                          {'error': 'That username is already taken.'})
-
-        email = request.POST['email']
-        if User.objects.filter(email=email).exists():
-            return render(request, 'users/signup.html',
-                          {'error': 'That email is already taken.'})
-
-        user = User.objects.create_user(username=username,
-                                       email=email,
-                                       password=password1)
-
-        user.first_name = request.POST['first_name']
-        user.last_name = request.POST['last_name']
-        user.save()
-
-        return redirect('login')
-
-    return render(request, 'users/signup.html')
+    context = {
+        'form': form
+    }
+    return render(request, 'users/signup.html', context)
 
 
 @login_required
