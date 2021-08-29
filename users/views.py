@@ -7,11 +7,37 @@ from django.shortcuts import redirect, render
 # Models
 from users.models import User
 
+# Froms
+from .forms import UserForm
+
 
 @login_required
 def edit_profile(request):
     """Edit a user's profile view."""
-    return render(request, 'users/edit_profile.html')
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+
+            user.username = data['username']
+            user.email = data['email']
+            user.first_name = data['first_name']
+            user.last_name = data['last_name']
+            user.website = data['website']
+            user.biography = data['biography']
+            user.phone_number = data['phone_number']
+            user.profile_picture = data['profile_picture']
+
+            user.save()
+            return redirect('edit_profile')
+    else:
+        form = UserForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'users/edit_profile.html', context)
 
 
 def login_view(request):
@@ -56,7 +82,7 @@ def signup(request):
             return render(request, 'users/signup.html',
                           {'error': 'That email is already taken.'})
 
-        user = User.objects.createuser(username=username,
+        user = User.objects.create_user(username=username,
                                        email=email,
                                        password=password1)
 

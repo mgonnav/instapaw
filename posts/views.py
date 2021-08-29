@@ -9,4 +9,7 @@ from .models import Post
 @login_required
 def list_posts(request):
     posts = Post.objects.all()
-    return render(request, 'posts/feed.html', {'posts': posts})
+    context = {
+        'posts': posts
+    }
+    return render(request, 'posts/feed.html', context)

@@ -1,6 +1,6 @@
 #navbar_container {
   background-color: white;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #dbdbdb;
 }
 
 .navbar {
@@ -8,8 +8,8 @@
 }
 
 .vertical_line {
-  border-right: 1px solid #444;
+  border-right: 1px solid #dbdbdb;
   height: inherit;
   height: 64px;
-  box-shadow: 2px 0 5px #444;
+  box-shadow: 2px 0 5px #dbdbdb;
 }

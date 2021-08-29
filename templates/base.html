@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% block head %}
   {% endblock %}
 
@@ -11,11 +12,12 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}" media="all">
   <link rel="stylesheet" href="{% static 'fontawesomefree/css/all.min.css' %}" type="text/css" media="all">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css" media="all">
 </head>
-<body>
+<body class"h-100">
   {% include "navbar.html" %}
 
-  <div class="container mt-5">
+  <div class="container mt-5 h-100">
     {% block content %}
     {% endblock %}
   </div>
