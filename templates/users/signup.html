@@ -13,7 +13,7 @@
         <img src="{% static 'img/logo_text.png' %}" alt="Instapaw logo text" height="32">
       </div>
 
-      <form action="{% url 'signup' %}" method="POST">
+      <form action="{% url 'users:signup' %}" method="POST">
         {% csrf_token %}
         <div class="row mb-3">
           <div class="col">
@@ -71,7 +71,7 @@
         </div>
         <button class="btn btn-primary w-100" type="submit">Sign up</button>
       </form>
-      <a class="text-decoration-none mt-3" href="{% url 'login' %}">Already have an account? Log in</a>
+      <a class="text-decoration-none mt-3" href="{% url 'users:login' %}">Already have an account? Log in</a>
     </div>
   </div>
 {% endblock %}

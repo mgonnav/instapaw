@@ -2,19 +2,23 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 from .models import Post
 
 from .forms import PostForm
 
 
-@login_required
-def list_posts(request):
-    posts = Post.objects.order_by('-created_on').all()
-    context = {
-        'posts': posts
-    }
-    return render(request, 'posts/feed.html', context)
+class PostsFeedView(LoginRequiredMixin, ListView):
+    """Return all published posts."""
+
+    template_name = 'posts/feed.html'
+    model = Post
+    ordering = '-created_on'
+    #  paginate_by = 2
+    context_object_name = 'posts'
+
 
 @login_required
 def create_post(request):
@@ -25,11 +29,9 @@ def create_post(request):
             new_post = form.save(commit=False)
             new_post.user = request.user
             new_post.save()
-            return redirect('feed')
+            return redirect('posts:feed')
     else:
         form = PostForm()
 
-    context = {
-        'form': form
-    }
+    context = {'form': form}
     return render(request, 'posts/create.html', context)

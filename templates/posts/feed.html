@@ -10,7 +10,7 @@
     {% for post in posts %}
       <div class="card text-dark bg-light mb-3 w-50">
         <div class="card-header">
-          <a href="#" class="text-decoration-none text-dark fs-5">
+          <a href="{% url 'users:detail' post.user.username %}" class="text-decoration-none text-dark fs-5">
             <div class="d-flex align-items-center fw-bold">
               <div class="flex-shrink-0">
                 {% if post.user.profile_picture %}

@@ -17,7 +17,7 @@
         <p class="alert alert-danger w-100">{{ error }}</p>
       {% endif %}
 
-      <form action="{% url 'login' %}" method="POST">
+      <form action="{% url 'users:login' %}" method="POST">
         {% csrf_token %}
         <div class="input-group mb-3">
           <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -29,7 +29,7 @@
         </div>
         <button class="btn btn-primary w-100" type="submit">Log in</button>
       </form>
-      <a class="text-decoration-none mt-3" href="{% url 'signup' %}">Don't have an account? Sign up!</a>
+      <a class="text-decoration-none mt-3" href="{% url 'users:signup' %}">Don't have an account? Sign up!</a>
     </div>
   </div>
 {% endblock %}
