@@ -20,10 +20,11 @@ class ProfileCompletionMiddleware:
 
         user = request.user
         if not user.is_anonymous:
-            if not user.profile_picture or not user.biography:
-                exempt_urls = map(reverse, ['edit_profile', 'logout'])
-                if request.path not in exempt_urls:
-                    return redirect('edit_profile')
+            if not user.is_staff:
+                if not user.profile_picture or not user.biography:
+                    exempt_urls = map(reverse, ['edit_profile', 'logout'])
+                    if request.path not in exempt_urls:
+                        return redirect('edit_profile')
 
         response = self.get_response(request)
         return response
