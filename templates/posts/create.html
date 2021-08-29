@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <title>Create a new post</title>
+  <link rel="stylesheet" href="{% static 'css/create_post.css' %}" type="text/css" media="all">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="p-3" id="profile_box">
+    <h5 class="mb-4">Post a new picture!</h5>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="user" value="{{ user.pk }}" />
+
+      {# Website field #}
+      <div class="form-group">
+        <input
+          class="form-control mb-3 {% if form.title.errors %}is-invalid{% endif %}"
+          type="text"
+          name="title"
+          placeholder="Title"
+          required
+        >
+        <div class="invalid-feedback">
+          {% for error in form.title.errors %}{{ error }}{% endfor %}
+        </div>
+      </div>
+
+      {# Picture field #}
+      <div class="form-group">
+        <label>Choose your picture:</label>
+        <input
+          class="form-control {% if form.picture.errors %}is-invalid{% endif %}"
+          type="file"
+          name="picture"
+          placeholder="Picture"
+          required
+        >
+        <div class="invalid-feedback">
+          {% for error in form.picture.errors %}{{ error }}{% endfor %}
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block mt-4">Publish!</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

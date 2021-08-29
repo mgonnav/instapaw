@@ -5,13 +5,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from posts import views as posts_views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # posts views
-    path('', posts_views.list_posts, name='feed'),
+    path('', include('posts.urls')),
 
     # users views
     path('accounts/', include('users.urls')),
