@@ -1,13 +1,12 @@
 """Posts views."""
 
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-
-from .models import Post
+from django.shortcuts import redirect, render
+from django.views.generic import DetailView, ListView
 
 from .forms import PostForm
+from .models import Post
 
 
 class PostsFeedView(LoginRequiredMixin, ListView):
@@ -18,6 +17,23 @@ class PostsFeedView(LoginRequiredMixin, ListView):
     ordering = '-created_on'
     #  paginate_by = 2
     context_object_name = 'posts'
+
+
+class ShowPostView(LoginRequiredMixin, DetailView):
+    """Return the details of a specific post."""
+
+    template_name = 'posts/post.html'
+    model = Post
+    slug_field = 'pk'
+    slug_url_kwarg = 'post_id'
+    queryset = Post.objects.all()
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        #  context['user'] = User.objects.filter(user=)
+        return context
 
 
 @login_required
