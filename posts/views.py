@@ -15,7 +15,7 @@ class PostsFeedView(LoginRequiredMixin, ListView):
     template_name = 'posts/feed.html'
     model = Post
     ordering = '-created_on'
-    #  paginate_by = 2
+    paginate_by = 2
     context_object_name = 'posts'
 
 
@@ -28,12 +28,6 @@ class ShowPostView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = 'post_id'
     queryset = Post.objects.all()
     context_object_name = 'post'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        post = self.get_object()
-        #  context['user'] = User.objects.filter(user=)
-        return context
 
 
 @login_required
