@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center h-75 mb-5">
-  <form id="edit_form" action="{% url 'users:edit_profile' %}" method="POST" enctype="multipart/form-data">
+  <form id="edit_form" action="{% url 'users:update' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="d-flex align-items-center mt-4">
       <div class="flex-shrink-0">

@@ -15,7 +15,7 @@
         {{ viewed_user.username }}
         {% if viewed_user == user %}
           <a
-            href="{% url "users:edit_profile" %}"
+            href="{% url "users:update" %}"
             class="ml-5 btn btn-sm btn-outline-info"
           >
             Edit profile

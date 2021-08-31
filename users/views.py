@@ -5,12 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, UpdateView
 
 from posts.models import Post
 
 # Forms
 from .forms import SignupForm, UserForm
+
 # Models
 from .models import User
 
@@ -45,19 +46,22 @@ class SignupView(FormView):
         return super().form_valid(form)
 
 
-@login_required
-def edit_profile(request):
-    """Edit a user's profile view."""
-    if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('users:edit_profile')
-    else:
-        form = UserForm()
+class UpdateUserView(LoginRequiredMixin, UpdateView):
+    """Update user view."""
 
-    context = {'form': form}
-    return render(request, 'users/edit_profile.html', context)
+    template_name = 'users/update.html'
+    model = User
+    form_class = UserForm
+    context_object_name = 'other_user'
+
+    def get_object(self):
+        """Return user."""
+        return self.request.user
+
+    def get_success_url(self):
+        """Return to user's detail page."""
+        context = {'username': self.request.user.username}
+        return reverse_lazy('users:detail', kwargs=context)
 
 
 def login_view(request):
