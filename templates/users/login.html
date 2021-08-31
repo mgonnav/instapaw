@@ -13,8 +13,8 @@
         <img src="{% static 'img/logo_text.png' %}" alt="Instapaw logo text" height="32">
       </div>
 
-      {% if error %}
-        <p class="alert alert-danger w-100">{{ error }}</p>
+      {% if form.errors %}
+        <p class="alert alert-danger w-100">Invalid credentials. Please try again.</p>
       {% endif %}
 
       <form action="{% url 'users:login' %}" method="POST">

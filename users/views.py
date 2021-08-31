@@ -1,17 +1,17 @@
 """Users views."""
 
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, FormView, UpdateView
 
 from posts.models import Post
 
+# Decorators
+from .decorators import login_excluded
 # Forms
 from .forms import SignupForm, UserForm
-
 # Models
 from .models import User
 
@@ -33,12 +33,14 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+@method_decorator(login_excluded('posts:feed'), name='dispatch')
 class SignupView(FormView):
     """Signup view."""
 
     template_name = 'users/signup.html'
     form_class = SignupForm
     success_url = reverse_lazy('users:login')
+    redirect_authenticated_user = True
 
     def form_valid(self, form):
         """Save form data."""
@@ -64,27 +66,13 @@ class UpdateUserView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('users:detail', kwargs=context)
 
 
-def login_view(request):
+class LoginView(auth_views.LoginView):
     """Login view."""
-    if request.user.is_authenticated:
-        return redirect('posts:feed')
 
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('posts:feed')
-        else:
-            return render(request, 'users/login.html',
-                          {'error': 'Invalid credentials.'})
-
-    return render(request, 'users/login.html')
+    template_name = 'users/login.html'
+    redirect_authenticated_user = True
 
 
-@login_required
-def logout_view(request):
-    """Log out view."""
-    logout(request)
-    return redirect('users:login')
+class LogoutView(LoginRequiredMixin, auth_views.LogoutView):
+    """Logout view."""
+    pass
