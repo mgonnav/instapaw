@@ -1,9 +1,8 @@
 """Posts views."""
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
-from django.views.generic import DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import PostForm
 from .models import Post
@@ -30,18 +29,9 @@ class ShowPostView(LoginRequiredMixin, DetailView):
     context_object_name = 'post'
 
 
-@login_required
-def create_post(request):
-    """Create new post view."""
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_post = form.save(commit=False)
-            new_post.user = request.user
-            new_post.save()
-            return redirect('posts:feed')
-    else:
-        form = PostForm()
+class CreatePostView(LoginRequiredMixin, CreateView):
+    """Create a new post view."""
 
-    context = {'form': form}
-    return render(request, 'posts/create.html', context)
+    template_name = 'posts/create.html'
+    form_class = PostForm
+    success_url = reverse_lazy('posts:feed')

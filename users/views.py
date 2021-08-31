@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.views.generic import DetailView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, FormView
 
 from posts.models import Post
 
@@ -26,8 +27,22 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
-        context['posts'] = Post.objects.filter(user=user).order_by('-created_on')
+        context['posts'] = Post.objects.filter(
+            user=user).order_by('-created_on')
         return context
+
+
+class SignupView(FormView):
+    """Signup view."""
+
+    template_name = 'users/signup.html'
+    form_class = SignupForm
+    success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        """Save form data."""
+        form.save()
+        return super().form_valid(form)
 
 
 @login_required
@@ -62,23 +77,6 @@ def login_view(request):
                           {'error': 'Invalid credentials.'})
 
     return render(request, 'users/login.html')
-
-
-def signup(request):
-    """Sign up view."""
-    if request.user.is_authenticated:
-        return redirect('posts:feed')
-
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('users:login')
-    else:
-        form = SignupForm()
-
-    context = {'form': form}
-    return render(request, 'users/signup.html', context)
 
 
 @login_required
