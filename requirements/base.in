@@ -1,0 +1,11 @@
+asgiref
+beautifulsoup4
+Django
+django-bootstrap-v5
+django-environ
+fontawesomefree
+mysqlclient
+Pillow
+pytz
+soupsieve
+sqlparse
